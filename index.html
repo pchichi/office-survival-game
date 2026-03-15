@@ -2,25 +2,235 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5633586978343800" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spreadsheet</title>
+  <title>무제한_스프레드시트_데이터_취합</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* ========== Excel-like base styling ========== */
+    /* ========== Google Sheets–like base ========== */
     * {
       box-sizing: border-box;
     }
     body {
-      font-family: "Segoe UI", "Calibri", sans-serif;
+      font-family: "Roboto", "Segoe UI", "Malgun Gothic", sans-serif;
       margin: 0;
-      padding: 12px;
-      background: #e2e3e4;
-      color: #333;
+      padding: 0;
+      background: #f8f9fa;
+      color: #202124;
     }
 
-    /* Header bar (like Excel formula bar / ribbon area) */
+    /* ========== Google Sheets shell ========== */
+    .sheets-app {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: #f8f9fa;
+    }
+    .sheets-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 56px;
+      padding: 0 16px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #dadce0;
+      font-size: 13px;
+    }
+    .sheets-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sheets-doc-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #5f6368;
+      font-weight: 400;
+    }
+    .sheets-doc-title .star-icon {
+      font-size: 18px;
+      cursor: default;
+      color: #5f6368;
+    }
+    .sheets-menu {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .sheets-menu-item {
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      color: #202124;
+      cursor: default;
+      font-family: inherit;
+      font-size: 13px;
+      appearance: none;
+      -webkit-appearance: none;
+      border-radius: 4px;
+    }
+    .sheets-menu-item:hover {
+      background: #e8eaed;
+    }
+    .sheets-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sheets-share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 24px;
+      border: none;
+      background: #e8f0fe;
+      color: #1967d2;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: default;
+      appearance: none;
+    }
+    .sheets-share-btn:hover { background: #d2e3fc; }
+    .sheets-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1a73e8;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .sheets-formula-bar {
+      display: flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 12px;
+      background: #fff;
+      border-bottom: 1px solid #dadce0;
+      font-size: 12px;
+    }
+    .sheets-formula-bar .fx-label {
+      color: #5f6368;
+      margin-right: 10px;
+      font-weight: 500;
+    }
+    .sheets-formula-bar .formula-input {
+      flex: 1;
+      border: none;
+      padding: 4px 0;
+      font-family: inherit;
+      font-size: 12px;
+      color: #202124;
+      outline: none;
+    }
+    .sheets-formula-bar .formula-input::placeholder { color: #9aa0a6; }
+    .sheets-main {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      min-height: 0;
+      background: #fff;
+    }
+    .sheets-col-grid {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+      border-right: 1px solid #dadce0;
+      background: #fff;
+    }
+    .sheets-col-grid .sheets-filler {
+      flex: 1;
+      min-height: 24px;
+      background: #f8f9fa;
+    }
+    .sheets-col-chat {
+      flex: 0 0 260px;
+      min-width: 260px;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #dadce0;
+      background: #fff;
+      align-self: flex-start;
+    }
+    .sheets-col-chat .sheets-filler {
+      flex: 1;
+      min-height: 24px;
+      background: #f8f9fa;
+    }
+    .sheets-col-data {
+      flex: 1;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      overflow: visible;
+    }
+    .sheets-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 36px;
+      padding: 0 12px;
+      background: #fff;
+      border-top: 1px solid #dadce0;
+      font-size: 12px;
+      color: #5f6368;
+    }
+    .sheets-footer-left {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .sheets-footer-tab-btn {
+      padding: 6px 10px;
+      border: none;
+      background: transparent;
+      color: #202124;
+      cursor: default;
+      font-family: inherit;
+      font-size: 12px;
+      appearance: none;
+      border-radius: 4px;
+    }
+    .sheets-footer-tab-btn:hover { background: #e8eaed; }
+    .sheets-footer-tab-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: default;
+    }
+    .sheets-footer-tab-name:hover { background: #e8eaed; }
+    .sheets-footer-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .sheets-footer-right .zoom-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sheets-footer-right .zoom-wrap input[type="range"] {
+      width: 72px;
+      height: 6px;
+      accent-color: #1a73e8;
+    }
+
+    /* Game stats bar (inside grid column) */
     .excel-header {
-      background: linear-gradient(180deg, #f5f6f7 0%, #e8eaed 100%);
-      border: 1px solid #d0d0d0;
+      background: #f8f9fa;
+      border: 1px solid #dadce0;
       border-bottom: none;
       padding: 8px 12px;
       display: flex;
@@ -42,7 +252,7 @@
     .grid-wrapper {
       display: inline-block;
       background: #fff;
-      border: 1px solid #d0d0d0;
+      border: 1px solid #ccc;
       box-shadow: 0 1px 2px rgba(0,0,0,0.06);
     }
 
@@ -53,14 +263,14 @@
       height: 22px;
       min-height: 22px;
       background: #e8e8e8;
-      border-right: 1px solid #d0d0d0;
-      border-bottom: 1px solid #d0d0d0;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
     }
 
     /* Column headers: A, B, C, ... */
     .col-headers {
       display: flex;
-      border-bottom: 1px solid #d0d0d0;
+      border-bottom: 1px solid #ccc;
     }
     .col-header {
       width: 22px;
@@ -74,7 +284,7 @@
       font-weight: 600;
       color: #333;
       background: #e8e8e8;
-      border-right: 1px solid #d0d0d0;
+      border-right: 1px solid #ccc;
     }
 
     /* Row headers + grid row */
@@ -97,16 +307,15 @@
       font-weight: 600;
       color: #333;
       background: #e8e8e8;
-      border-right: 1px solid #d0d0d0;
-      border-bottom: 1px solid #d0d0d0;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
     }
 
     /* Main cell grid */
     .cells-container {
       display: flex;
       flex-direction: column;
-      overflow: auto;
-      max-height: 90vh;
+      overflow: visible;
     }
     .cell-row {
       display: flex;
@@ -124,8 +333,8 @@
       font-size: 11px;
       font-weight: 600;
       background: #ffffff;
-      border-right: 1px solid #d0d0d0;
-      border-bottom: 1px solid #d0d0d0;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
       cursor: pointer;
       user-select: none;
     }
@@ -253,6 +462,137 @@
     .monthly-table-wrap { overflow: auto; max-height: 180px; }
     .monthly-table-wrap .leaderboard-table { font-size: 11px; }
 
+    /* ========== Data Analysis pane: horizontal leaderboards, 20 fixed rows, no scroll ========== */
+    .data-analysis-pane {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      overflow: visible;
+    }
+    .data-analysis-pane .pane-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #dadce0;
+      font-size: 12px;
+      font-weight: 500;
+      color: #202124;
+    }
+    .data-analysis-pane .pane-title .ranking-help-btn { margin-left: auto; }
+    .leaderboards-row {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      padding: 12px;
+      flex: 0 0 auto;
+      overflow: visible;
+    }
+    .leaderboard-card {
+      flex: 1;
+      min-width: 160px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #dadce0;
+      background: #fff;
+    }
+    .leaderboard-card .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 6px 8px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #dadce0;
+      font-size: 11px;
+      font-weight: 600;
+      color: #202124;
+    }
+    .leaderboard-card .card-head .excel-dropdown {
+      font-family: inherit;
+      font-size: 11px;
+      padding: 2px 6px;
+      border: 1px solid #dadce0;
+      background: #fff;
+      color: #202124;
+      min-width: 72px;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235f6368' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+      padding-right: 20px;
+    }
+    .leaderboard-card .pane-table-wrap {
+      overflow: visible;
+      flex: 0 0 auto;
+    }
+    .leaderboard-card .leaderboard-table { font-size: 11px; table-layout: fixed; }
+    .leaderboard-card .leaderboard-table th,
+    .leaderboard-card .leaderboard-table td {
+      border: 1px solid #dadce0;
+      padding: 2px 6px;
+      height: 20px;
+      line-height: 18px;
+      overflow: hidden;
+    }
+    .leaderboard-card .leaderboard-table thead th {
+      height: 22px;
+      background: #f8f9fa;
+      font-weight: 600;
+    }
+    .leaderboard-card .leaderboard-table tbody tr.empty-row td {
+      background: #f8f9fa;
+      color: transparent;
+      user-select: none;
+    }
+    .pagination-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-top: 1px solid #ccc;
+      background: #f9f9f9;
+      font-size: 11px;
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+    }
+    .pagination-wrap button {
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      font-size: 11px;
+      padding: 2px 8px;
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #333;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .pagination-wrap button:hover { background: #e8e8e8; }
+    .pagination-wrap button:disabled { cursor: default; color: #999; background: #f0f0f0; }
+    .pagination-wrap .page-info { color: #333; }
+    .ranking-help-btn {
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      font-size: 11px;
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      border: 1px solid #ccc;
+      background: #f5f6f7;
+      color: #0563c1;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .ranking-help-btn:hover { background: #e8eaed; color: #003366; }
+
     /* Excel Status Bar (concurrent users) */
     .excel-status-bar {
       padding: 4px 10px;
@@ -262,32 +602,6 @@
       border-top: 1px solid #d0d0d0;
       font-family: "Segoe UI", "Calibri", sans-serif;
     }
-
-    /* Excel Sheet Tabs */
-    .sheet-tabs {
-      display: flex;
-      border-bottom: 1px solid #d0d0d0;
-      background: #e8e8e8;
-      padding: 0;
-      font-size: 11px;
-      font-family: "Segoe UI", "Calibri", sans-serif;
-    }
-    .sheet-tab {
-      padding: 6px 12px;
-      border: 1px solid #d0d0d0;
-      border-bottom: none;
-      margin-bottom: -1px;
-      background: #e8e8e8;
-      color: #333;
-      cursor: pointer;
-    }
-    .sheet-tab.active {
-      background: #fff;
-      font-weight: 600;
-    }
-    .sheet-tab-content { display: none; padding: 6px; }
-    .sheet-tab-content.active { display: block; }
-    .sheet-tab-content .leaderboard-table-wrap { max-height: 200px; }
 
     /* Error modal (Excel alert style) */
     .error-modal .modal-title { background: #fdeaea; color: #c00; }
@@ -372,57 +686,36 @@
       text-align: center;
     }
 
-    /* ========== Layout: main + right sidebar (Excel task pane) ========== */
-    .app-layout {
-      display: flex;
-      gap: 0;
-      align-items: flex-start;
-      max-width: 100%;
-    }
+    /* ========== Layout: grid + chat columns ========== */
     .main-content {
       flex: 0 0 auto;
     }
-    .sidebar {
-      flex: 0 0 280px;
-      min-width: 280px;
-      background: #fff;
-      border: 1px solid #d0d0d0;
-      border-left: none;
-      box-shadow: -1px 0 2px rgba(0,0,0,0.04);
-      display: flex;
-      flex-direction: column;
-      max-height: 90vh;
-      font-family: "Segoe UI", "Calibri", sans-serif;
-    }
     .sidebar-title {
-      background: #e8eaed;
-      border-bottom: 1px solid #d0d0d0;
-      padding: 8px 10px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #dadce0;
+      padding: 8px 12px;
       font-size: 12px;
-      font-weight: 600;
-      color: #333;
+      font-weight: 500;
+      color: #202124;
     }
     .sidebar-section {
-      border-bottom: 1px solid #d0d0d0;
+      border-bottom: 1px solid #dadce0;
       display: flex;
       flex-direction: column;
-      min-height: 0;
     }
     .sidebar-section .section-head {
-      background: #f5f6f7;
-      border-bottom: 1px solid #d0d0d0;
-      padding: 6px 10px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #dadce0;
+      padding: 6px 12px;
       font-size: 11px;
       font-weight: 600;
-      color: #333;
+      color: #5f6368;
     }
     .chat-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 6px;
+      padding: 6px 12px;
       font-size: 11px;
-      min-height: 120px;
-      max-height: 200px;
     }
     .chat-msg {
       margin-bottom: 4px;
@@ -440,18 +733,20 @@
     .chat-input-row input {
       flex: 1;
       padding: 4px 6px;
-      border: 1px solid #d0d0d0;
-      font-family: "Segoe UI", "Calibri", sans-serif;
+      border: 1px solid #ccc;
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
       font-size: 11px;
     }
     .chat-input-row button {
-      font-family: "Segoe UI", "Calibri", sans-serif;
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
       font-size: 11px;
       padding: 4px 10px;
-      background: #f0f0f0;
-      border: 1px solid #b4b4b4;
+      background: #fff;
+      border: 1px solid #ccc;
       color: #333;
       cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
     }
     .chat-input-row button:hover { background: #e8e8e8; }
 
@@ -468,52 +763,33 @@
     }
     .leaderboard-table th,
     .leaderboard-table td {
-      border: 1px solid #d0d0d0;
-      padding: 4px 8px;
+      border: 1px solid #ccc;
+      padding: 3px 6px;
       text-align: left;
       background: #fff;
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
     }
     .leaderboard-table th {
       background: #e8e8e8;
       font-weight: 600;
     }
-    .leaderboard-table tr:nth-child(even) td { background: #f9f9f9; }
+    .leaderboard-table tr:nth-child(even) td { background: #f3f3f3; }
 
     /* Retry button (shown on game over) */
     .btn-retry {
-      font-family: "Segoe UI", "Calibri", sans-serif;
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
       font-size: 12px;
       padding: 4px 12px;
-      background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
-      border: 1px solid #b4b4b4;
+      background: #fff;
+      border: 1px solid #ccc;
       color: #333;
       cursor: pointer;
       display: none;
+      appearance: none;
+      -webkit-appearance: none;
     }
     .btn-retry.visible { display: inline-block; }
     .chat-input-row button.cooldown { cursor: not-allowed; color: #888; }
-
-    /* Stealth: Excel-style zoom slider (bottom right) */
-    .zoom-slider-wrap {
-      position: fixed;
-      bottom: 12px;
-      right: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #fff;
-      border: 1px solid #d0d0d0;
-      padding: 4px 8px;
-      font-size: 11px;
-      color: #333;
-      font-family: "Segoe UI", "Calibri", sans-serif;
-      z-index: 100;
-    }
-    .zoom-slider-wrap input[type="range"] {
-      width: 80px;
-      height: 6px;
-      accent-color: #333;
-    }
   </style>
 </head>
 <body>
@@ -553,16 +829,17 @@
   <!-- Help modal -->
   <div class="modal-overlay" id="help-modal">
     <div class="excel-modal">
-      <div class="modal-title">도움말 — 규칙</div>
+      <div class="modal-title">게임 방법</div>
       <div class="modal-body">
         <p><strong>목표</strong></p>
         <p>지뢰가 없는 모든 칸을 열어보세요. 지뢰가 있는 칸을 클릭하면 안 됩니다.</p>
         <p><strong>조작</strong></p>
         <p>• <strong>왼쪽 클릭</strong>: 칸을 엽니다. 숫자는 인접 8칸에 있는 지뢰 개수입니다.</p>
-        <p>• <strong>오른쪽 클릭</strong>: 깃발(지뢰 의심 표시)을 놓거나 제거합니다.</p>
+        <p>• <strong>오른쪽 클릭</strong>: 지뢰 의심 표시를 놓거나 제거합니다.</p>
         <p>• <strong>0</strong>이 나온 칸은 인접한 빈 칸과 숫자 칸이 자동으로 열립니다.</p>
-        <p><strong>보드</strong></p>
-        <p>매 시 정각에 같은 맵이 전 세계 동기화됩니다. 클리어 시간이 실시간 랭킹에 기록됩니다.</p>
+        <p><strong>시간</strong></p>
+        <p>매 시 정각에 신규 게임이 출제 됩니다.</p>
+        <p>클리어 시간이 실시간 랭킹에 기록됩니다.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="vba-btn" id="help-close">확인</button>
@@ -570,79 +847,190 @@
     </div>
   </div>
 
-  <div class="app-opacity-wrap" id="app-opacity-wrap">
-  <div class="app-layout">
-    <div class="main-content disabled" id="main-content">
-      <div class="excel-header">
-        <div class="game-stats">
-          <span id="mines-remaining">남은 지뢰: 99</span>
-          <span id="timer">진행 시간: 0</span>
-          <span id="next-update-label">남은 시간: <span class="next-update-cell" id="next-update">--:--</span></span>
-          <button type="button" class="btn-retry" id="btn-retry">다시 하기</button>
-        </div>
-        <a href="#" class="help-link" id="help-link">도움말</a>
+  <!-- Ranking info modal (Excel Task Pane help) -->
+  <div class="modal-overlay" id="ranking-help-modal">
+    <div class="excel-modal">
+      <div class="modal-title">랭킹 안내</div>
+      <div class="modal-body">
+        <p><strong>실시간 랭킹</strong></p>
+        <p>매 정각 갱신되는 1시간 단위 스피드런입니다. 1~20위에 포인트가 차등 지급됩니다.</p>
+        <p><strong>월간 포인트</strong></p>
+        <p>실시간 랭킹 달성으로 획득한 이달의 누적 포인트입니다.</p>
+        <p><strong>월간 클리어</strong></p>
+        <p>순위와 상관없이 이달에 맵을 클리어한 총 획수입니다.</p>
       </div>
-
-      <div class="grid-wrapper" id="grid-wrapper">
-    <!-- Column headers row: corner + A..AD (30 cols) -->
-    <div class="col-headers" id="col-headers"></div>
-    <div class="grid-body">
-      <div class="row-headers" id="row-headers"></div>
-      <div class="cells-container" id="cells-container"></div>
+      <div class="modal-footer">
+        <button type="button" class="vba-btn" id="ranking-help-close">확인</button>
+      </div>
     </div>
   </div>
+
+  <!-- Inquiry modal (role-based: write vs admin list) -->
+  <div class="modal-overlay" id="inquiry-modal">
+    <div class="excel-modal">
+      <div class="modal-title">문의 사항 (개발자에게 건의)</div>
+      <div class="modal-body">
+        <div id="inquiry-write-view">
+          <textarea id="inquiry-textarea" rows="5" placeholder="문의 또는 건의 사항을 입력하세요..." style="width:100%; min-height:100px; padding:8px; border:1px solid #dadce0; font-family:inherit; font-size:12px; resize:vertical;"></textarea>
+          <div style="margin-top:10px;">
+            <button type="button" class="vba-btn" id="inquiry-submit">제출</button>
+          </div>
+        </div>
+        <div id="inquiry-admin-view" style="display:none;">
+          <div class="inquiry-list-wrap" style="max-height:280px; overflow-y:auto;">
+            <table class="leaderboard-table" style="width:100%; font-size:11px;">
+              <thead><tr><th>이름</th><th>내용</th><th>날짜</th></tr></thead>
+              <tbody id="inquiry-list-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="vba-btn" id="inquiry-close">닫기</button>
+      </div>
     </div>
-
-    <aside class="sidebar">
-      <div class="sidebar-title">작업 창</div>
-      <div class="sidebar-section">
-        <div class="section-head">대화</div>
-        <div class="excel-status-bar" id="online-count-bar">현재 접속자: 0명</div>
-        <div class="chat-messages" id="chat-messages"></div>
-        <div class="chat-input-row">
-          <input type="text" id="chat-input" placeholder="메시지 입력..." />
-          <button type="button" id="chat-send" title="">전송</button>
-        </div>
-      </div>
-      <div class="sidebar-section">
-        <div class="sheet-tabs">
-          <button type="button" class="sheet-tab active" data-tab="hourly">실시간 Top 20</button>
-          <button type="button" class="sheet-tab" data-tab="points">누적 포인트</button>
-          <button type="button" class="sheet-tab" data-tab="clears">누적 클리어</button>
-        </div>
-        <div id="tab-hourly" class="sheet-tab-content active">
-          <div class="leaderboard-table-wrap">
-            <table class="leaderboard-table">
-              <thead><tr><th>순위</th><th>이름</th><th>시간</th></tr></thead>
-              <tbody id="leaderboard-body"></tbody>
-            </table>
-          </div>
-        </div>
-        <div id="tab-points" class="sheet-tab-content">
-          <div class="leaderboard-table-wrap">
-            <table class="leaderboard-table">
-              <thead><tr><th>순위</th><th>이름</th><th>포인트</th></tr></thead>
-              <tbody id="points-body"></tbody>
-            </table>
-          </div>
-        </div>
-        <div id="tab-clears" class="sheet-tab-content">
-          <div class="leaderboard-table-wrap">
-            <table class="leaderboard-table">
-              <thead><tr><th>순위</th><th>이름</th><th>클리어</th></tr></thead>
-              <tbody id="clears-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </aside>
-  </div>
   </div>
 
-  <div class="zoom-slider-wrap" title="투명도">
-    <span>투명도</span>
-    <input type="range" id="opacity-slider" min="10" max="100" value="100" />
-    <span id="opacity-value">100%</span>
+  <div class="sheets-app" id="app-opacity-wrap">
+    <header class="sheets-header">
+      <div class="sheets-header-left">
+        <div class="sheets-doc-title">
+          <span class="star-icon" title="스타 추가">☆</span>
+          <span>무제한_스프레드시트_데이터_취합</span>
+        </div>
+        <nav class="sheets-menu">
+          <button type="button" class="sheets-menu-item">파일</button>
+          <button type="button" class="sheets-menu-item">수정</button>
+          <button type="button" class="sheets-menu-item">보기</button>
+          <button type="button" class="sheets-menu-item">삽입</button>
+          <button type="button" class="sheets-menu-item">서식</button>
+          <button type="button" class="sheets-menu-item">데이터</button>
+          <button type="button" class="sheets-menu-item">도구</button>
+          <button type="button" class="sheets-menu-item">확장 프로그램</button>
+          <button type="button" class="sheets-menu-item" id="menu-inquiry">문의 사항</button>
+          <button type="button" class="sheets-menu-item">도움말</button>
+        </nav>
+      </div>
+      <div class="sheets-header-right">
+        <button type="button" class="sheets-share-btn">🔒 공유</button>
+        <div class="sheets-avatar" title="계정">U</div>
+      </div>
+    </header>
+    <div class="sheets-formula-bar">
+      <span class="fx-label">fx</span>
+      <input type="text" class="formula-input" readonly placeholder=" " />
+    </div>
+    <div class="sheets-main">
+      <div class="sheets-col-grid">
+        <div class="main-content disabled" id="main-content">
+          <div class="excel-header">
+            <div class="game-stats">
+              <span id="mines-remaining">남은 지뢰: 99</span>
+              <span id="timer">진행 시간: 0</span>
+              <span id="next-update-label">남은 시간: <span class="next-update-cell" id="next-update">--:--</span></span>
+              <button type="button" class="btn-retry" id="btn-retry">다시 하기</button>
+            </div>
+            <a href="#" class="help-link" id="help-link">게임 방법</a>
+          </div>
+          <div class="grid-wrapper" id="grid-wrapper">
+            <div class="col-headers" id="col-headers"></div>
+            <div class="grid-body">
+              <div class="row-headers" id="row-headers"></div>
+              <div class="cells-container" id="cells-container"></div>
+            </div>
+          </div>
+        </div>
+        <div class="sheets-filler"></div>
+      </div>
+      <aside class="sheets-col-chat">
+        <div class="sidebar-title">작업 창</div>
+        <div class="sidebar-section">
+          <div class="section-head">대화</div>
+          <div class="chat-messages" id="chat-messages"></div>
+          <div class="chat-input-row">
+            <input type="text" id="chat-input" placeholder="메시지 입력..." />
+            <button type="button" id="chat-send" title="">전송</button>
+          </div>
+        </div>
+        <div class="sheets-filler"></div>
+      </aside>
+      <aside class="sheets-col-data">
+        <div class="data-analysis-pane">
+          <div class="pane-title">
+            <span>데이터 분석</span>
+            <button type="button" class="ranking-help-btn" id="ranking-help-btn" title="안내">?</button>
+          </div>
+          <div class="leaderboards-row">
+            <div class="leaderboard-card" data-table="hourly">
+              <div class="card-head">
+                <span>실시간 랭킹</span>
+              </div>
+              <div class="pane-table-wrap">
+                <table class="leaderboard-table">
+                  <thead><tr><th>순위</th><th>이름</th><th>시간</th></tr></thead>
+                  <tbody id="leaderboard-body"></tbody>
+                </table>
+              </div>
+              <div class="pagination-wrap" id="pagination-hourly">
+                <button type="button" class="pagination-prev" data-table="hourly">이전</button>
+                <span class="page-info">1 / 1</span>
+                <button type="button" class="pagination-next" data-table="hourly">다음</button>
+              </div>
+            </div>
+            <div class="leaderboard-card" data-table="points">
+              <div class="card-head">
+                <span>월간 포인트</span>
+                <select class="excel-dropdown" id="month-points-select" title="월 선택"></select>
+              </div>
+              <div class="pane-table-wrap">
+                <table class="leaderboard-table">
+                  <thead><tr><th>순위</th><th>이름</th><th>포인트</th></tr></thead>
+                  <tbody id="points-body"></tbody>
+                </table>
+              </div>
+              <div class="pagination-wrap" id="pagination-points">
+                <button type="button" class="pagination-prev" data-table="points">이전</button>
+                <span class="page-info">1 / 1</span>
+                <button type="button" class="pagination-next" data-table="points">다음</button>
+              </div>
+            </div>
+            <div class="leaderboard-card" data-table="clears">
+              <div class="card-head">
+                <span>월간 클리어</span>
+                <select class="excel-dropdown" id="month-clears-select" title="월 선택"></select>
+              </div>
+              <div class="pane-table-wrap">
+                <table class="leaderboard-table">
+                  <thead><tr><th>순위</th><th>이름</th><th>클리어</th></tr></thead>
+                  <tbody id="clears-body"></tbody>
+                </table>
+              </div>
+              <div class="pagination-wrap" id="pagination-clears">
+                <button type="button" class="pagination-prev" data-table="clears">이전</button>
+                <span class="page-info">1 / 1</span>
+                <button type="button" class="pagination-next" data-table="clears">다음</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <footer class="sheets-footer">
+      <div class="sheets-footer-left">
+        <button type="button" class="sheets-footer-tab-btn" title="메뉴">≡</button>
+        <button type="button" class="sheets-footer-tab-btn" title="시트 추가">➕</button>
+        <span style="width:1px; height:16px; background:#dadce0; margin:0 4px;"></span>
+        <span class="sheets-footer-tab-name">시트1 ▾</span>
+      </div>
+      <div class="sheets-footer-right">
+        <span id="online-count-bar">현재 접속자: 0명</span>
+        <div class="zoom-wrap" title="투명도">
+          <span>투명도</span>
+          <input type="range" id="opacity-slider" min="10" max="100" value="100" />
+          <span id="opacity-value">100%</span>
+        </div>
+      </div>
+    </footer>
   </div>
 
   <!-- Firebase SDK (add your config below) -->
@@ -681,9 +1069,16 @@
       const MINES = 99;
       const NICKNAME_STORAGE_KEY = "minesweeper_nickname";
       const MIN_CLEAR_SECONDS = 5;
+      const ROWS_PER_PAGE = 20;
 
       // ========== State ==========
       let grid = [];
+      let hourlyFullList = [];
+      let monthlyPointsList = [];
+      let monthlyClearsList = [];
+      let currentPageHourly = 1;
+      let currentPagePoints = 1;
+      let currentPageClears = 1;
       let firstClick = true;
       let gameOver = false;
       let gameWon = false;
@@ -715,6 +1110,11 @@
       const leaderboardBodyEl = document.getElementById("leaderboard-body");
       const pointsBodyEl = document.getElementById("points-body");
       const clearsBodyEl = document.getElementById("clears-body");
+      const monthPointsSelectEl = document.getElementById("month-points-select");
+      const monthClearsSelectEl = document.getElementById("month-clears-select");
+      const rankingHelpBtnEl = document.getElementById("ranking-help-btn");
+      const rankingHelpModalEl = document.getElementById("ranking-help-modal");
+      const rankingHelpCloseEl = document.getElementById("ranking-help-close");
       const onlineCountBarEl = document.getElementById("online-count-bar");
       const passwordInputEl = document.getElementById("password-input");
       const passwordErrorModalEl = document.getElementById("password-error-modal");
@@ -931,7 +1331,7 @@
           endGame(false);
           cell.exploded = true;
           updateCellDOM(r, c);
-          revealAllMines();
+          //revealAllMines();
           return;
         }
 
@@ -1050,12 +1450,18 @@
               return (a.ts || 0) - (b.ts || 0);
             });
             var top20 = list.slice(0, 20);
+            var prevDate = new Date(prevHourKey.slice(0, 4), parseInt(prevHourKey.slice(5, 7), 10) - 1, parseInt(prevHourKey.slice(8, 10), 10), parseInt(prevHourKey.slice(11, 13), 10));
+            var prevMonthKey = getMonthKey(prevDate);
             top20.forEach(function (entry, idx) {
               var pts = 20 - idx;
               var uk = sanitizeNickname(entry.name);
               if (!uk) return;
               db.ref("users/" + uk + "/total_points").transaction(function (cur) {
                 return (cur || 0) + pts;
+              });
+              db.ref("monthly_points/" + prevMonthKey + "/" + uk).transaction(function (cur) {
+                cur = cur || { name: entry.name, points: 0 };
+                return { name: cur.name, points: (cur.points || 0) + pts };
               });
             });
           });
@@ -1172,6 +1578,7 @@
           var prevKey = getPreviousHourKeyFrom(key);
           if (prevKey) tryDistributePointsForPreviousHour(prevKey);
           currentHourKey = key;
+          currentPageHourly = 1;
           chatMessagesEl.innerHTML = "";
           leaderboardBodyEl.innerHTML = "";
           if (chatRef) {
@@ -1196,8 +1603,28 @@
         updateNextUpdateCountdown();
         attachLeaderboardListener();
         attachChatListener();
-        fetchCumulativePoints();
-        fetchCumulativeClears();
+        fetchMonthlyPoints(monthPointsSelectEl ? monthPointsSelectEl.value : getMonthKey());
+        fetchMonthlyClears(monthClearsSelectEl ? monthClearsSelectEl.value : getMonthKey());
+        syncChatHeight();
+      }
+
+      function syncChatHeight() {
+        var mainContent = document.getElementById("main-content"); // 게임 영역
+        var sidebarSection = document.querySelector(".sidebar-section"); // 채팅창 기둥
+        var sidebarTitle = document.querySelector(".sidebar-title"); // '작업 창' 제목
+        //var chatPane = document.querySelector(".sheets-col-chat");
+        if (mainContent && sidebarSection && sidebarTitle) {
+          // 1. 게임판의 실제 높이를 가져옵니다.
+          var gameHeight = mainContent.offsetHeight;
+          
+          // 2. '작업 창' 타이틀 높이를 뺍니다.
+          var titleHeight = sidebarTitle.offsetHeight;
+          
+          // 3. 남은 높이를 채팅 영역에 픽셀(px) 단위로 강제 고정합니다.
+          var targetHeight = gameHeight - titleHeight;
+          sidebarSection.style.height = targetHeight + "px";
+          sidebarSection.style.flex = "none";
+        }
       }
 
       function updateNextUpdateCountdown() {
@@ -1226,20 +1653,83 @@
               if (a.time !== b.time) return a.time - b.time;
               return (a.ts || 0) - (b.ts || 0);
             });
-            renderLeaderboard(list.slice(0, 20));
+            hourlyFullList = list;
+            renderTablePage("hourly");
           });
         } catch (e) {
           console.warn("Leaderboard listen failed:", e);
         }
       }
 
-      function renderLeaderboard(list) {
-        leaderboardBodyEl.innerHTML = "";
-        list.forEach(function (row, i) {
-          const tr = document.createElement("tr");
-          tr.innerHTML = "<td>" + (i + 1) + "</td><td>" + escapeHtml(row.name) + "</td><td>" + formatTimeMMSS(row.time) + "</td>";
-          leaderboardBodyEl.appendChild(tr);
-        });
+      function getTableConfig(tableKey) {
+        if (tableKey === "hourly") {
+          return { bodyEl: leaderboardBodyEl, list: hourlyFullList, page: currentPageHourly, setPage: function (p) { currentPageHourly = p; }, paginationWrapId: "pagination-hourly" };
+        }
+        if (tableKey === "points") {
+          return { bodyEl: pointsBodyEl, list: monthlyPointsList, page: currentPagePoints, setPage: function (p) { currentPagePoints = p; }, paginationWrapId: "pagination-points" };
+        }
+        if (tableKey === "clears") {
+          return { bodyEl: clearsBodyEl, list: monthlyClearsList, page: currentPageClears, setPage: function (p) { currentPageClears = p; }, paginationWrapId: "pagination-clears" };
+        }
+        return null;
+      }
+
+      var EMPTY_CELL = "<td>&nbsp;</td>";
+      function renderTablePage(tableKey) {
+        var cfg = getTableConfig(tableKey);
+        if (!cfg || !cfg.bodyEl) return;
+        var list = cfg.list || [];
+        var page = Math.max(1, cfg.page);
+        var totalPages = Math.max(1, Math.ceil(list.length / ROWS_PER_PAGE));
+        if (page > totalPages) page = totalPages;
+        cfg.setPage(page);
+        var start = (page - 1) * ROWS_PER_PAGE;
+        var slice = list.slice(start, start + ROWS_PER_PAGE);
+        cfg.bodyEl.innerHTML = "";
+        var i;
+        if (tableKey === "hourly") {
+          for (i = 0; i < ROWS_PER_PAGE; i++) {
+            var tr = document.createElement("tr");
+            if (slice[i]) {
+              tr.innerHTML = "<td>" + (start + i + 1) + "</td><td>" + escapeHtml(slice[i].name) + "</td><td>" + formatTimeMMSS(slice[i].time) + "</td>";
+            } else {
+              tr.className = "empty-row";
+              tr.innerHTML = EMPTY_CELL + EMPTY_CELL + EMPTY_CELL;
+            }
+            cfg.bodyEl.appendChild(tr);
+          }
+        } else if (tableKey === "points") {
+          for (i = 0; i < ROWS_PER_PAGE; i++) {
+            var trP = document.createElement("tr");
+            if (slice[i]) {
+              trP.innerHTML = "<td>" + (start + i + 1) + "</td><td>" + escapeHtml(slice[i].name) + "</td><td>" + slice[i].points + "</td>";
+            } else {
+              trP.className = "empty-row";
+              trP.innerHTML = EMPTY_CELL + EMPTY_CELL + EMPTY_CELL;
+            }
+            cfg.bodyEl.appendChild(trP);
+          }
+        } else if (tableKey === "clears") {
+          for (i = 0; i < ROWS_PER_PAGE; i++) {
+            var trC = document.createElement("tr");
+            if (slice[i]) {
+              trC.innerHTML = "<td>" + (start + i + 1) + "</td><td>" + escapeHtml(slice[i].name) + "</td><td>" + slice[i].count + "</td>";
+            } else {
+              trC.className = "empty-row";
+              trC.innerHTML = EMPTY_CELL + EMPTY_CELL + EMPTY_CELL;
+            }
+            cfg.bodyEl.appendChild(trC);
+          }
+        }
+        var wrap = document.getElementById(cfg.paginationWrapId);
+        if (wrap) {
+          var prevBtn = wrap.querySelector(".pagination-prev");
+          var nextBtn = wrap.querySelector(".pagination-next");
+          var infoSpan = wrap.querySelector(".page-info");
+          if (infoSpan) infoSpan.textContent = page + " / " + totalPages;
+          if (prevBtn) { prevBtn.disabled = page <= 1; }
+          if (nextBtn) { nextBtn.disabled = page >= totalPages; }
+        }
       }
 
       function escapeHtml(s) {
@@ -1264,61 +1754,98 @@
         });
       }
 
-      // ========== Cumulative rankings: fetch users by total_points / total_clears ==========
-      function fetchCumulativePoints() {
+      // ========== Month dropdown options (YYYY-MM, current + past months) ==========
+      function getMonthOptions(count) {
+        var out = [];
+        var d = new Date();
+        for (var i = 0; i < (count || 12); i++) {
+          out.push(getMonthKey(d));
+          d.setMonth(d.getMonth() - 1);
+        }
+        return out;
+      }
+
+      function fillMonthDropdown(selectEl) {
+        if (!selectEl) return;
+        selectEl.innerHTML = "";
+        var opts = getMonthOptions(12);
+        opts.forEach(function (ym) {
+          var opt = document.createElement("option");
+          opt.value = ym;
+          opt.textContent = ym;
+          selectEl.appendChild(opt);
+        });
+      }
+
+      // ========== Monthly points: monthly_points/YYYY-MM ==========
+      function fetchMonthlyPoints(monthKey) {
         if (!db || !pointsBodyEl) return;
-        db.ref("users").once("value", function (snap) {
+        var ref = db.ref("monthly_points/" + (monthKey || getMonthKey()));
+        ref.once("value", function (snap) {
           var list = [];
           snap.forEach(function (child) {
             var v = child.val();
-            var pts = (v && v.total_points) || 0;
-            var name = (v && v.nickname) || child.key;
-            list.push({ name: name, total_points: pts });
+            var pts = (typeof v === "number") ? v : (v && v.points) || 0;
+            var name = (v && typeof v === "object" && v.name) ? v.name : child.key;
+            list.push({ name: name, points: pts });
           });
-          list.sort(function (a, b) { return b.total_points - a.total_points; });
-          pointsBodyEl.innerHTML = "";
-          list.slice(0, 20).forEach(function (row, i) {
-            var tr = document.createElement("tr");
-            tr.innerHTML = "<td>" + (i + 1) + "</td><td>" + escapeHtml(row.name) + "</td><td>" + row.total_points + "</td>";
-            pointsBodyEl.appendChild(tr);
-          });
+          list.sort(function (a, b) { return b.points - a.points; });
+          monthlyPointsList = list;
+          currentPagePoints = 1;
+          renderTablePage("points");
         });
       }
 
-      function fetchCumulativeClears() {
+      // ========== Monthly clears: monthly_clears/YYYY-MM ==========
+      function fetchMonthlyClears(monthKey) {
         if (!db || !clearsBodyEl) return;
-        db.ref("users").once("value", function (snap) {
+        var ref = db.ref("monthly_clears/" + (monthKey || getMonthKey()));
+        ref.once("value", function (snap) {
           var list = [];
           snap.forEach(function (child) {
             var v = child.val();
-            var clears = (v && v.total_clears) || 0;
-            var name = (v && v.nickname) || child.key;
-            list.push({ name: name, total_clears: clears });
+            var count = (v && v.count) || 0;
+            var name = (v && v.name) || child.key;
+            list.push({ name: name, count: count });
           });
-          list.sort(function (a, b) { return b.total_clears - a.total_clears; });
-          clearsBodyEl.innerHTML = "";
-          list.slice(0, 20).forEach(function (row, i) {
-            var tr = document.createElement("tr");
-            tr.innerHTML = "<td>" + (i + 1) + "</td><td>" + escapeHtml(row.name) + "</td><td>" + row.total_clears + "</td>";
-            clearsBodyEl.appendChild(tr);
-          });
+          list.sort(function (a, b) { return b.count - a.count; });
+          monthlyClearsList = list;
+          currentPageClears = 1;
+          renderTablePage("clears");
         });
       }
 
-      // ========== Sheet tab switching ==========
-      function initSheetTabs() {
-        document.querySelectorAll(".sheet-tab").forEach(function (tab) {
-          tab.addEventListener("click", function () {
-            var t = this.getAttribute("data-tab");
-            document.querySelectorAll(".sheet-tab").forEach(function (el) { el.classList.remove("active"); });
-            document.querySelectorAll(".sheet-tab-content").forEach(function (el) { el.classList.remove("active"); });
-            this.classList.add("active");
-            var content = document.getElementById("tab-" + t);
-            if (content) content.classList.add("active");
-            if (t === "points") fetchCumulativePoints();
-            if (t === "clears") fetchCumulativeClears();
-          });
+      // ========== Pagination button handlers ==========
+      function initPagination() {
+        ["hourly", "points", "clears"].forEach(function (tableKey) {
+          var wrap = document.getElementById("pagination-" + tableKey);
+          if (!wrap) return;
+          var prevBtn = wrap.querySelector(".pagination-prev");
+          var nextBtn = wrap.querySelector(".pagination-next");
+          if (prevBtn) {
+            prevBtn.addEventListener("click", function () {
+              var cfg = getTableConfig(tableKey);
+              if (cfg && cfg.page > 1) { cfg.setPage(cfg.page - 1); renderTablePage(tableKey); }
+            });
+          }
+          if (nextBtn) {
+            nextBtn.addEventListener("click", function () {
+              var cfg = getTableConfig(tableKey);
+              var totalPages = Math.max(1, Math.ceil((cfg.list || []).length / ROWS_PER_PAGE));
+              if (cfg && cfg.page < totalPages) { cfg.setPage(cfg.page + 1); renderTablePage(tableKey); }
+            });
+          }
         });
+      }
+
+      // ========== Ranking help modal ==========
+      function initRankingHelp() {
+        if (rankingHelpBtnEl && rankingHelpModalEl) {
+          rankingHelpBtnEl.addEventListener("click", function () { rankingHelpModalEl.classList.add("visible"); });
+        }
+        if (rankingHelpCloseEl && rankingHelpModalEl) {
+          rankingHelpCloseEl.addEventListener("click", function () { rankingHelpModalEl.classList.remove("visible"); });
+        }
       }
 
       // ========== Chat: send and listen via Firebase (5s cooldown) ==========
@@ -1475,11 +2002,23 @@
         if (e.key === "Enter") sendChatMessage();
       });
 
-      initSheetTabs();
+      fillMonthDropdown(monthPointsSelectEl);
+      fillMonthDropdown(monthClearsSelectEl);
+      fetchMonthlyPoints(getMonthKey());
+      fetchMonthlyClears(getMonthKey());
+      if (monthPointsSelectEl) {
+        monthPointsSelectEl.addEventListener("change", function () { fetchMonthlyPoints(this.value); });
+      }
+      if (monthClearsSelectEl) {
+        monthClearsSelectEl.addEventListener("change", function () { fetchMonthlyClears(this.value); });
+      }
+      initRankingHelp();
+      initPagination();
 
       // ========== Retry (same hour board) ==========
       if (btnRetryEl) {
         btnRetryEl.addEventListener("click", function () {
+          window.open('https://tpi.li/YHDYJNBP', '_blank');
           loadBoardForHour(true);
         });
       }
@@ -1503,9 +2042,75 @@
         });
       }
 
+      // ========== Inquiry modal: role-based (admin sees list, others see write form) ==========
+      var inquiryModalEl = document.getElementById("inquiry-modal");
+      var inquiryWriteViewEl = document.getElementById("inquiry-write-view");
+      var inquiryAdminViewEl = document.getElementById("inquiry-admin-view");
+      var inquiryTextareaEl = document.getElementById("inquiry-textarea");
+      var inquiryListBodyEl = document.getElementById("inquiry-list-body");
+      var menuInquiryEl = document.getElementById("menu-inquiry");
+      function openInquiryModal() {
+        if (!inquiryModalEl) return;
+        if (nickname === "admin") {
+          if (inquiryWriteViewEl) inquiryWriteViewEl.style.display = "none";
+          if (inquiryAdminViewEl) {
+            inquiryAdminViewEl.style.display = "block";
+            fetchInquiriesForAdmin();
+          }
+        } else {
+          if (inquiryWriteViewEl) inquiryWriteViewEl.style.display = "block";
+          if (inquiryAdminViewEl) inquiryAdminViewEl.style.display = "none";
+          if (inquiryTextareaEl) inquiryTextareaEl.value = "";
+        }
+        inquiryModalEl.classList.add("visible");
+      }
+      function fetchInquiriesForAdmin() {
+        if (!db || !inquiryListBodyEl) return;
+        db.ref("inquiries").orderByChild("ts").once("value", function (snap) {
+          var rows = [];
+          snap.forEach(function (child) {
+            var v = child.val();
+            if (v) rows.push({ name: v.name || "", text: v.text || "", ts: v.ts || 0 });
+          });
+          rows.sort(function (a, b) { return a.ts - b.ts; });
+          inquiryListBodyEl.innerHTML = "";
+          rows.forEach(function (r) {
+            var tr = document.createElement("tr");
+            var dateStr = r.ts ? new Date(r.ts).toLocaleString("ko-KR") : "";
+            tr.innerHTML = "<td>" + escapeHtml(r.name) + "</td><td>" + escapeHtml(r.text) + "</td><td>" + escapeHtml(dateStr) + "</td>";
+            inquiryListBodyEl.appendChild(tr);
+          });
+        });
+      }
+      function submitInquiry() {
+        var text = (inquiryTextareaEl && inquiryTextareaEl.value) ? inquiryTextareaEl.value.trim() : "";
+        if (!text) return;
+        if (!db) {
+          alert("건의사항이 성공적으로 등록되었습니다.");
+          if (inquiryTextareaEl) inquiryTextareaEl.value = "";
+          return;
+        }
+        try {
+          db.ref("inquiries").push({ name: nickname, text: text, ts: Date.now() });
+          alert("건의사항이 성공적으로 등록되었습니다.");
+          if (inquiryTextareaEl) inquiryTextareaEl.value = "";
+        } catch (e) {
+          console.warn("Inquiry submit failed:", e);
+        }
+      }
+      if (menuInquiryEl) menuInquiryEl.addEventListener("click", openInquiryModal);
+      if (document.getElementById("inquiry-close")) {
+        document.getElementById("inquiry-close").addEventListener("click", function () {
+          if (inquiryModalEl) inquiryModalEl.classList.remove("visible");
+        });
+      }
+      if (document.getElementById("inquiry-submit")) {
+        document.getElementById("inquiry-submit").addEventListener("click", submitInquiry);
+      }
+
       // ========== Init ==========
       buildHeaders();
-      if (db) setupPresence();
+      setupPresence();
       try {
         const saved = localStorage.getItem(NICKNAME_STORAGE_KEY);
         if (saved && saved.trim() && !db) {
@@ -1519,9 +2124,13 @@
         }
       } catch (e) {}
       loadBoardForHour();
+
+      syncChatHeight();
+
       if (mainContentEl.classList.contains("disabled")) {
         nextUpdateEl.textContent = "--:--";
       }
+      window.addEventListener("resize", syncChatHeight);
     })();
   </script>
 </body>
