@@ -229,6 +229,68 @@
       font-family: "Segoe UI", "Calibri", sans-serif;
       font-size: 12px;
     }
+    .vba-dialog-body .form-row { margin-bottom: 12px; }
+    .vba-dialog-body .form-row:last-child { margin-bottom: 0; }
+
+    /* Excel AutoFilter-style dropdown */
+    .excel-dropdown-wrap {
+      padding: 6px 10px;
+      border-bottom: 1px solid #d0d0d0;
+      background: #fafafa;
+    }
+    .excel-dropdown-wrap select {
+      width: 100%;
+      padding: 4px 8px;
+      font-family: "Segoe UI", "Calibri", sans-serif;
+      font-size: 11px;
+      border: 1px solid #d0d0d0;
+      background: #fff;
+      color: #333;
+      cursor: pointer;
+    }
+
+    /* Monthly summary table (Excel style) */
+    .monthly-table-wrap { overflow: auto; max-height: 180px; }
+    .monthly-table-wrap .leaderboard-table { font-size: 11px; }
+
+    /* Excel Status Bar (concurrent users) */
+    .excel-status-bar {
+      padding: 4px 10px;
+      font-size: 11px;
+      color: #333;
+      background: #f0f0f0;
+      border-top: 1px solid #d0d0d0;
+      font-family: "Segoe UI", "Calibri", sans-serif;
+    }
+
+    /* Excel Sheet Tabs */
+    .sheet-tabs {
+      display: flex;
+      border-bottom: 1px solid #d0d0d0;
+      background: #e8e8e8;
+      padding: 0;
+      font-size: 11px;
+      font-family: "Segoe UI", "Calibri", sans-serif;
+    }
+    .sheet-tab {
+      padding: 6px 12px;
+      border: 1px solid #d0d0d0;
+      border-bottom: none;
+      margin-bottom: -1px;
+      background: #e8e8e8;
+      color: #333;
+      cursor: pointer;
+    }
+    .sheet-tab.active {
+      background: #fff;
+      font-weight: 600;
+    }
+    .sheet-tab-content { display: none; padding: 6px; }
+    .sheet-tab-content.active { display: block; }
+    .sheet-tab-content .leaderboard-table-wrap { max-height: 200px; }
+
+    /* Error modal (Excel alert style) */
+    .error-modal .modal-title { background: #fdeaea; color: #c00; }
     .vba-dialog-footer {
       padding: 8px 12px;
       border-top: 1px solid #d0d0d0;
@@ -455,16 +517,35 @@
   </style>
 </head>
 <body>
-  <!-- Nickname prompt (VBA-style, on load) -->
+  <!-- Login / Register (Excel Protect Sheet / Unlock style) -->
   <div class="vba-overlay" id="nickname-overlay">
     <div class="vba-dialog">
-      <div class="vba-dialog-title">입력</div>
+      <div class="vba-dialog-title">시트 보호 — 암호 확인</div>
       <div class="vba-dialog-body">
-        <label for="nickname-input">닉네임</label>
-        <input type="text" id="nickname-input" placeholder="이름 또는 사번 입력" maxlength="32" />
+        <div class="form-row">
+          <label for="nickname-input">사용자 이름</label>
+          <input type="text" id="nickname-input" placeholder="이름 또는 사번 입력" maxlength="32" autocomplete="username" />
+        </div>
+        <div class="form-row">
+          <label for="password-input">암호</label>
+          <input type="password" id="password-input" placeholder="암호 입력" maxlength="64" autocomplete="current-password" />
+        </div>
       </div>
       <div class="vba-dialog-footer">
         <button type="button" class="vba-btn" id="nickname-submit">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Password error (Excel-styled) -->
+  <div class="modal-overlay" id="password-error-modal">
+    <div class="excel-modal error-modal">
+      <div class="modal-title">암호가 올바르지 않음</div>
+      <div class="modal-body">
+        <p id="password-error-text">입력한 암호가 올바르지 않습니다. CAPS LOCK이 꺼져 있는지 확인하고 대소문자를 정확히 입력하세요.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="vba-btn" id="password-error-close">확인</button>
       </div>
     </div>
   </div>
@@ -496,7 +577,7 @@
         <div class="game-stats">
           <span id="mines-remaining">남은 지뢰: 99</span>
           <span id="timer">진행 시간: 0</span>
-          <span id="next-update-label">다음 맵 갱신: <span class="next-update-cell" id="next-update">--:--</span></span>
+          <span id="next-update-label">남은 시간: <span class="next-update-cell" id="next-update">--:--</span></span>
           <button type="button" class="btn-retry" id="btn-retry">다시 하기</button>
         </div>
         <a href="#" class="help-link" id="help-link">도움말</a>
@@ -516,6 +597,7 @@
       <div class="sidebar-title">작업 창</div>
       <div class="sidebar-section">
         <div class="section-head">대화</div>
+        <div class="excel-status-bar" id="online-count-bar">현재 접속자: 0명</div>
         <div class="chat-messages" id="chat-messages"></div>
         <div class="chat-input-row">
           <input type="text" id="chat-input" placeholder="메시지 입력..." />
@@ -523,20 +605,42 @@
         </div>
       </div>
       <div class="sidebar-section">
-        <div class="section-head">실시간 랭킹</div>
-        <div class="leaderboard-table-wrap">
-          <table class="leaderboard-table">
-            <thead><tr><th>순위</th><th>이름</th><th>시간(초)</th></tr></thead>
-            <tbody id="leaderboard-body"></tbody>
-          </table>
+        <div class="sheet-tabs">
+          <button type="button" class="sheet-tab active" data-tab="hourly">실시간 Top 20</button>
+          <button type="button" class="sheet-tab" data-tab="points">누적 포인트</button>
+          <button type="button" class="sheet-tab" data-tab="clears">누적 클리어</button>
+        </div>
+        <div id="tab-hourly" class="sheet-tab-content active">
+          <div class="leaderboard-table-wrap">
+            <table class="leaderboard-table">
+              <thead><tr><th>순위</th><th>이름</th><th>시간</th></tr></thead>
+              <tbody id="leaderboard-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="tab-points" class="sheet-tab-content">
+          <div class="leaderboard-table-wrap">
+            <table class="leaderboard-table">
+              <thead><tr><th>순위</th><th>이름</th><th>포인트</th></tr></thead>
+              <tbody id="points-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="tab-clears" class="sheet-tab-content">
+          <div class="leaderboard-table-wrap">
+            <table class="leaderboard-table">
+              <thead><tr><th>순위</th><th>이름</th><th>클리어</th></tr></thead>
+              <tbody id="clears-body"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </aside>
   </div>
   </div>
 
-  <div class="zoom-slider-wrap" title="화면 배율">
-    <span>화면 배율</span>
+  <div class="zoom-slider-wrap" title="투명도">
+    <span>투명도</span>
     <input type="range" id="opacity-slider" min="10" max="100" value="100" />
     <span id="opacity-value">100%</span>
   </div>
@@ -576,6 +680,7 @@
       const ROWS = 16;
       const MINES = 99;
       const NICKNAME_STORAGE_KEY = "minesweeper_nickname";
+      const MIN_CLEAR_SECONDS = 5;
 
       // ========== State ==========
       let grid = [];
@@ -608,6 +713,12 @@
       const chatInputEl = document.getElementById("chat-input");
       const chatSendEl = document.getElementById("chat-send");
       const leaderboardBodyEl = document.getElementById("leaderboard-body");
+      const pointsBodyEl = document.getElementById("points-body");
+      const clearsBodyEl = document.getElementById("clears-body");
+      const onlineCountBarEl = document.getElementById("online-count-bar");
+      const passwordInputEl = document.getElementById("password-input");
+      const passwordErrorModalEl = document.getElementById("password-error-modal");
+      const passwordErrorCloseEl = document.getElementById("password-error-close");
       const btnRetryEl = document.getElementById("btn-retry");
       const appOpacityWrapEl = document.getElementById("app-opacity-wrap");
       const opacitySliderEl = document.getElementById("opacity-slider");
@@ -637,6 +748,25 @@
         return y + "-" + m + "-" + day + "-" + h;
       }
 
+      function getPreviousHourKey() {
+        const d = new Date();
+        d.setHours(d.getHours() - 1);
+        return getHourKey(d);
+      }
+
+      function getPreviousHourKeyFrom(hourKey) {
+        if (!hourKey || hourKey.length < 13) return null;
+        var parts = hourKey.split("-");
+        if (parts.length < 4) return null;
+        var y = parseInt(parts[0], 10);
+        var m = parseInt(parts[1], 10) - 1;
+        var day = parseInt(parts[2], 10);
+        var h = parseInt(parts[3], 10);
+        var d = new Date(y, m, day, h, 0, 0, 0);
+        d.setHours(d.getHours() - 1);
+        return getHourKey(d);
+      }
+
       // Seconds until next hour (for countdown display)
       function getSecondsUntilNextHour() {
         const now = new Date();
@@ -652,6 +782,21 @@
         const m = Math.floor(seconds / 60);
         const s = seconds % 60;
         return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+      }
+
+      function formatTimeMMSS(totalSeconds) {
+        const m = Math.floor(totalSeconds / 60);
+        const s = totalSeconds % 60;
+        return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+      }
+
+      function getMonthKey(date) {
+        const d = date || new Date();
+        return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+      }
+
+      function sanitizeNickname(name) {
+        return String(name).replace(/[.#$\[\]\/]/g, "_").slice(0, 32) || "user";
       }
 
       // ========== Seeded RNG (Mulberry32) for identical boards per hour ==========
@@ -836,15 +981,85 @@
         }
       }
 
-      // ========== Submit clear time to Firebase leaderboard (current hour only) ==========
+      // ========== Hourly leaderboard: rounds/YYYY-MM-DD-HH/leaderboard (fastest only, ServerValue.TIMESTAMP tie-break) ==========
       function submitToLeaderboard() {
-        if (!db || !nickname || !currentHourKey) return;
+        if (!db || !nickname || !currentHourKey || seconds < MIN_CLEAR_SECONDS) return;
         try {
-          const ref = db.ref("leaderboard/" + currentHourKey);
-          ref.push({ name: nickname, time: seconds });
+          const userKey = sanitizeNickname(nickname);
+          const leaderRef = db.ref("rounds/" + currentHourKey + "/leaderboard/" + userKey);
+          leaderRef.transaction(function (cur) {
+            if (cur && typeof cur.time === "number" && cur.time <= seconds) return;
+            return {
+              name: nickname,
+              time: seconds,
+              ts: firebase.database.ServerValue.TIMESTAMP
+            };
+          });
         } catch (e) {
           console.warn("Leaderboard submit failed:", e);
         }
+      }
+
+      // ========== Cumulative clear count: users/{nickname}/total_clears ==========
+      function incrementTotalClears() {
+        if (!db || !nickname || seconds < MIN_CLEAR_SECONDS) return;
+        try {
+          const userKey = sanitizeNickname(nickname);
+          db.ref("users/" + userKey + "/total_clears").transaction(function (cur) {
+            return (cur || 0) + 1;
+          });
+        } catch (e) {
+          console.warn("Total clears increment failed:", e);
+        }
+      }
+
+      // ========== Monthly clears: increment at monthly_clears/YYYY-MM (kept for compatibility) ==========
+      function submitMonthlyClear() {
+        if (!db || !nickname || seconds < MIN_CLEAR_SECONDS) return;
+        try {
+          const monthKey = getMonthKey();
+          const key = sanitizeNickname(nickname);
+          const ref = db.ref("monthly_clears/" + monthKey + "/" + key);
+          ref.transaction(function (cur) {
+            cur = cur || { name: nickname, count: 0 };
+            return { name: cur.name, count: (cur.count || 0) + 1 };
+          });
+        } catch (e) {
+          console.warn("Monthly clear submit failed:", e);
+        }
+      }
+
+      // ========== Point distribution: when hour changes, first client distributes points for previous hour ==========
+      function tryDistributePointsForPreviousHour(prevHourKey) {
+        if (!db || !prevHourKey) return;
+        var flagRef = db.ref("rounds/" + prevHourKey + "/points_distributed");
+        flagRef.transaction(function (cur) {
+          if (cur === true) return;
+          return true;
+        }, function (err, committed, snap) {
+          if (!committed || !snap || !snap.val()) return;
+          var leaderRef = db.ref("rounds/" + prevHourKey + "/leaderboard");
+          leaderRef.once("value", function (leaderSnap) {
+            var list = [];
+            leaderSnap.forEach(function (child) {
+              var v = child.val();
+              if (v && typeof v.time === "number") list.push({ name: v.name, time: v.time, ts: v.ts || 0 });
+            });
+            list.sort(function (a, b) {
+              if (a.time !== b.time) return a.time - b.time;
+              return (a.ts || 0) - (b.ts || 0);
+            });
+            var top20 = list.slice(0, 20);
+            top20.forEach(function (entry, idx) {
+              var pts = 20 - idx;
+              var uk = sanitizeNickname(entry.name);
+              if (!uk) return;
+              db.ref("users/" + uk + "/total_points").transaction(function (cur) {
+                return (cur || 0) + pts;
+              });
+            });
+          });
+        });
       }
 
       // ========== End game ==========
@@ -853,7 +1068,11 @@
         gameWon = won;
         stopTimer();
         if (won) {
-          submitToLeaderboard();
+          if (seconds >= MIN_CLEAR_SECONDS) {
+            submitToLeaderboard();
+            submitMonthlyClear();
+            incrementTotalClears();
+          }
           if (btnRetryEl) btnRetryEl.classList.remove("visible");
         } else {
           if (btnRetryEl) btnRetryEl.classList.add("visible");
@@ -950,6 +1169,8 @@
         if (!forceRetry && key === currentHourKey && grid.length > 0) return;
 
         if (key !== currentHourKey) {
+          var prevKey = getPreviousHourKeyFrom(key);
+          if (prevKey) tryDistributePointsForPreviousHour(prevKey);
           currentHourKey = key;
           chatMessagesEl.innerHTML = "";
           leaderboardBodyEl.innerHTML = "";
@@ -975,6 +1196,8 @@
         updateNextUpdateCountdown();
         attachLeaderboardListener();
         attachChatListener();
+        fetchCumulativePoints();
+        fetchCumulativeClears();
       }
 
       function updateNextUpdateCountdown() {
@@ -988,17 +1211,21 @@
         nextUpdateIntervalId = setInterval(tick, 1000);
       }
 
-      // ========== Leaderboard: listen to Firebase for current hour ==========
+      // ========== Hourly leaderboard: rounds/YYYY-MM-DD-HH/leaderboard (Top 20, sort by time then ts) ==========
       function attachLeaderboardListener() {
         if (!db || !currentHourKey) return;
         try {
-          const ref = db.ref("leaderboard/" + currentHourKey);
-          ref.orderByChild("time").on("value", function (snap) {
+          const ref = db.ref("rounds/" + currentHourKey + "/leaderboard");
+          ref.on("value", function (snap) {
             const list = [];
             snap.forEach(function (child) {
-              list.push({ key: child.key, name: child.val().name, time: child.val().time });
+              const v = child.val();
+              if (v && typeof v.time === "number") list.push({ name: v.name, time: v.time, ts: v.ts || 0 });
             });
-            list.sort(function (a, b) { return a.time - b.time; });
+            list.sort(function (a, b) {
+              if (a.time !== b.time) return a.time - b.time;
+              return (a.ts || 0) - (b.ts || 0);
+            });
             renderLeaderboard(list.slice(0, 20));
           });
         } catch (e) {
@@ -1010,7 +1237,7 @@
         leaderboardBodyEl.innerHTML = "";
         list.forEach(function (row, i) {
           const tr = document.createElement("tr");
-          tr.innerHTML = "<td>" + (i + 1) + "</td><td>" + escapeHtml(row.name) + "</td><td>" + row.time + "</td>";
+          tr.innerHTML = "<td>" + (i + 1) + "</td><td>" + escapeHtml(row.name) + "</td><td>" + formatTimeMMSS(row.time) + "</td>";
           leaderboardBodyEl.appendChild(tr);
         });
       }
@@ -1019,6 +1246,79 @@
         const div = document.createElement("div");
         div.textContent = s;
         return div.innerHTML;
+      }
+
+      // ========== Presence: online_users + .info/connected + onDisconnect ==========
+      function setupPresence() {
+        if (!db || !onlineCountBarEl) return;
+        var connectedRef = db.ref(".info/connected");
+        connectedRef.on("value", function (snap) {
+          if (snap.val() !== true) return;
+          var sessionRef = db.ref("online_users").push();
+          sessionRef.onDisconnect().remove();
+          sessionRef.set(true);
+        });
+        db.ref("online_users").on("value", function (snap) {
+          var n = snap.numChildren();
+          onlineCountBarEl.textContent = "현재 접속자: " + n + "명";
+        });
+      }
+
+      // ========== Cumulative rankings: fetch users by total_points / total_clears ==========
+      function fetchCumulativePoints() {
+        if (!db || !pointsBodyEl) return;
+        db.ref("users").once("value", function (snap) {
+          var list = [];
+          snap.forEach(function (child) {
+            var v = child.val();
+            var pts = (v && v.total_points) || 0;
+            var name = (v && v.nickname) || child.key;
+            list.push({ name: name, total_points: pts });
+          });
+          list.sort(function (a, b) { return b.total_points - a.total_points; });
+          pointsBodyEl.innerHTML = "";
+          list.slice(0, 20).forEach(function (row, i) {
+            var tr = document.createElement("tr");
+            tr.innerHTML = "<td>" + (i + 1) + "</td><td>" + escapeHtml(row.name) + "</td><td>" + row.total_points + "</td>";
+            pointsBodyEl.appendChild(tr);
+          });
+        });
+      }
+
+      function fetchCumulativeClears() {
+        if (!db || !clearsBodyEl) return;
+        db.ref("users").once("value", function (snap) {
+          var list = [];
+          snap.forEach(function (child) {
+            var v = child.val();
+            var clears = (v && v.total_clears) || 0;
+            var name = (v && v.nickname) || child.key;
+            list.push({ name: name, total_clears: clears });
+          });
+          list.sort(function (a, b) { return b.total_clears - a.total_clears; });
+          clearsBodyEl.innerHTML = "";
+          list.slice(0, 20).forEach(function (row, i) {
+            var tr = document.createElement("tr");
+            tr.innerHTML = "<td>" + (i + 1) + "</td><td>" + escapeHtml(row.name) + "</td><td>" + row.total_clears + "</td>";
+            clearsBodyEl.appendChild(tr);
+          });
+        });
+      }
+
+      // ========== Sheet tab switching ==========
+      function initSheetTabs() {
+        document.querySelectorAll(".sheet-tab").forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            var t = this.getAttribute("data-tab");
+            document.querySelectorAll(".sheet-tab").forEach(function (el) { el.classList.remove("active"); });
+            document.querySelectorAll(".sheet-tab-content").forEach(function (el) { el.classList.remove("active"); });
+            this.classList.add("active");
+            var content = document.getElementById("tab-" + t);
+            if (content) content.classList.add("active");
+            if (t === "points") fetchCumulativePoints();
+            if (t === "clears") fetchCumulativeClears();
+          });
+        });
       }
 
       // ========== Chat: send and listen via Firebase (5s cooldown) ==========
@@ -1095,24 +1395,70 @@
         }
       }
 
-      // ========== Nickname dialog: require before playing ==========
+      // ========== Login / Register (password-protected, Firebase users path) ==========
+      function showPasswordError() {
+        var el = document.getElementById("password-error-text");
+        if (el) el.textContent = "입력한 암호가 올바르지 않습니다. CAPS LOCK이 꺼져 있는지 확인하고 대소문자를 정확히 입력하세요.";
+        if (passwordErrorModalEl) passwordErrorModalEl.classList.add("visible");
+      }
+
       function applyNickname() {
-        const value = (nicknameInputEl.value || "").trim();
-        if (!value) return;
-        nickname = value.slice(0, 32);
-        try {
-          localStorage.setItem(NICKNAME_STORAGE_KEY, nickname);
-        } catch (e) {}
-        nicknameOverlayEl.style.display = "none";
-        mainContentEl.classList.remove("disabled");
-        attachChatListener();
-        loadBoardForHour();
+        var userInput = (nicknameInputEl.value || "").trim();
+        var pwd = (passwordInputEl && passwordInputEl.value) || "";
+        if (!userInput) return;
+        nickname = userInput.slice(0, 32);
+
+        if (!db) {
+          try { localStorage.setItem(NICKNAME_STORAGE_KEY, nickname); } catch (e) {}
+          nicknameOverlayEl.style.display = "none";
+          mainContentEl.classList.remove("disabled");
+          attachChatListener();
+          loadBoardForHour();
+          return;
+        }
+
+        var userKey = sanitizeNickname(nickname);
+        var ref = db.ref("users/" + userKey);
+        ref.once("value", function (snap) {
+          if (!snap.exists()) {
+            ref.set({ nickname: nickname, password: pwd });
+            try { localStorage.setItem(NICKNAME_STORAGE_KEY, nickname); } catch (e) {}
+            nicknameOverlayEl.style.display = "none";
+            mainContentEl.classList.remove("disabled");
+            attachChatListener();
+            loadBoardForHour();
+          } else {
+            var stored = snap.val();
+            if (stored && stored.password === pwd) {
+              try { localStorage.setItem(NICKNAME_STORAGE_KEY, nickname); } catch (e) {}
+              nicknameOverlayEl.style.display = "none";
+              mainContentEl.classList.remove("disabled");
+              attachChatListener();
+              loadBoardForHour();
+            } else {
+              showPasswordError();
+            }
+          }
+        }, function () {
+          showPasswordError();
+        });
+      }
+
+      if (passwordErrorCloseEl) {
+        passwordErrorCloseEl.addEventListener("click", function () {
+          if (passwordErrorModalEl) passwordErrorModalEl.classList.remove("visible");
+        });
       }
 
       nicknameSubmitEl.addEventListener("click", applyNickname);
       nicknameInputEl.addEventListener("keydown", function (e) {
         if (e.key === "Enter") applyNickname();
       });
+      if (passwordInputEl) {
+        passwordInputEl.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") applyNickname();
+        });
+      }
 
       // ========== Help modal ==========
       helpLinkEl.addEventListener("click", function (e) {
@@ -1128,6 +1474,8 @@
       chatInputEl.addEventListener("keydown", function (e) {
         if (e.key === "Enter") sendChatMessage();
       });
+
+      initSheetTabs();
 
       // ========== Retry (same hour board) ==========
       if (btnRetryEl) {
@@ -1157,14 +1505,17 @@
 
       // ========== Init ==========
       buildHeaders();
+      if (db) setupPresence();
       try {
         const saved = localStorage.getItem(NICKNAME_STORAGE_KEY);
-        if (saved && saved.trim()) {
+        if (saved && saved.trim() && !db) {
           nickname = saved.trim().slice(0, 32);
           nicknameInputEl.value = nickname;
           nicknameOverlayEl.style.display = "none";
           mainContentEl.classList.remove("disabled");
           attachChatListener();
+        } else if (saved && saved.trim() && db) {
+          nicknameInputEl.value = saved.trim().slice(0, 32);
         }
       } catch (e) {}
       loadBoardForHour();
